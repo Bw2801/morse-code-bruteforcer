@@ -13,28 +13,34 @@ public class MorseCodeBruteforcer {
         findMatches(args[0]);
     }
 
-    private static final char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-        'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-        'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static final String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+        "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
+        "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
     private static final String[] morse = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--",
         "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",
         "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----."};
 
     private static void findMatches(String pattern) {
-        System.out.println("Searching for matching patterns...");
+        System.out.println("Searching for matching patterns for [" + pattern + "]");
+        bruteforce("", pattern);
     }
 
     private static void bruteforce(String prefix, String pattern) {
-        for (int i = 0; i < alphabet.length; i++) {
-            testForMatch(prefix + alphabet[i], pattern);
+        String currentMorseCode = toMorseCode(prefix).replaceAll(" ", "");
+        
+        if (!pattern.startsWith(currentMorseCode)) return;
+        if (currentMorseCode.length() >= pattern.length()) return;
+            
+        for (String alphabet1 : alphabet) {
+            testForMatch(prefix + alphabet1, pattern);
         }
 
-        for (int i = 0; i < alphabet.length; i++) {
+        for (String alphabet1 : alphabet) {
             if (prefix.length() >= pattern.length()) {
                 continue;
             }
-            bruteforce(prefix + alphabet[i], pattern);
+            bruteforce(prefix + alphabet1, pattern);
         }
     }
 
@@ -45,7 +51,6 @@ public class MorseCodeBruteforcer {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Match found: ");
         sb.append(string);
         sb.append(" [");
         sb.append(morseCode);
@@ -57,7 +62,7 @@ public class MorseCodeBruteforcer {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < string.length(); i++) {
-            int index = Arrays.binarySearch(alphabet, alphabet[i]);
+            int index = Arrays.asList(alphabet).indexOf("" + string.charAt(i));
             sb.append(morse[index]);
             sb.append(" ");
         }
