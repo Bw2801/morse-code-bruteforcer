@@ -22,7 +22,7 @@ public class MorseCodeBruteforcer {
         "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----."};
 
     private static void findMatches(String pattern) {
-        System.out.println("Searching for matching patterns for [" + pattern + "]");
+        System.out.println("Matching patterns for [" + pattern + "]:");
         bruteforce("", pattern);
     }
 
@@ -32,15 +32,15 @@ public class MorseCodeBruteforcer {
         if (!pattern.startsWith(currentMorseCode)) return;
         if (currentMorseCode.length() >= pattern.length()) return;
             
-        for (String alphabet1 : alphabet) {
-            testForMatch(prefix + alphabet1, pattern);
+        for (String character : alphabet) {
+            testForMatch(prefix + character, pattern);
         }
 
-        for (String alphabet1 : alphabet) {
+        for (String character : alphabet) {
             if (prefix.length() >= pattern.length()) {
                 continue;
             }
-            bruteforce(prefix + alphabet1, pattern);
+            bruteforce(prefix + character, pattern);
         }
     }
 
